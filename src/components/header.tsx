@@ -9,10 +9,13 @@ export default function Header() {
 						<SquarePen className="w-8 h-8 text-[#155DFC]" />
 						<p>DevBlog</p>
 					</div>
-						<button className="flex items-center px-3.5 py-1.75 gap-2 bg-[#155DFC] rounded-lg text-white">
-							<Plus className="w-4 h-4" />
-							<p>Create Post</p>
-						</button>
+					<button
+						type="button"
+						className="flex items-center px-3.5 py-1.75 gap-2 bg-[#155DFC] rounded-lg text-white"
+					>
+						<Plus className="w-4 h-4" />
+						<p>Create Post</p>
+					</button>
 				</div>
 			</div>
 		</div>

@@ -1,4 +1,4 @@
-import { relations } from 'drizzle-orm'
+// import { relations } from 'drizzle-orm'
 import * as pg from 'drizzle-orm/pg-core'
 
 export const posts = pg.pgTable('posts', {
@@ -58,4 +58,4 @@ export const comments = pg.pgTable('comments', {
     .timestamp()
     .notNull()
     .defaultNow(),
-})  
+}) 
