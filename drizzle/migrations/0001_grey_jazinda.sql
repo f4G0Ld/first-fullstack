@@ -1,0 +1,1 @@
+ALTER TABLE "posts" ADD COLUMN "comments" integer DEFAULT 0;

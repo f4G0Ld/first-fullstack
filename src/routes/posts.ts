@@ -1,7 +1,8 @@
 import { db } from "@/src/lib/db/database";
 import { posts } from "@/src/lib/db/schema";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { Elysia, t } from "elysia";
+import z from "zod/v4";
 
 export const postsRoutes = new Elysia({
 	name: "postsRoutes",
@@ -12,11 +13,8 @@ export const postsRoutes = new Elysia({
 		return await db.select().from(posts);
 	})
 
-	.post(
-		"/",
-		async ({ body }) => {
-			const [newPost] = await db.insert(posts).values(body).returning();
-			return newPost;
+	.post("/", async ({ body }) => {
+			return await db.insert(posts).values(body).returning();
 		},
 		{
 			body: t.Object({
@@ -27,20 +25,16 @@ export const postsRoutes = new Elysia({
 		},
 	)
 
-	.post(
-		"/:postId/like",
-		async ({ params }) => {
-			const [updatedPost] = await db
-				.update(posts)
-				.set({ likes: sql`${posts.likes} + 1` })
-				.where(eq(posts.id, params.postId))
-				.returning();
+	.put('/:id', async ({params, body}) => {
+		return await db.update(posts).set(body).where(eq(posts.id, params.id)).returning()
+	}, {
+		body: z.object({
+			title: z.string(),
+			name: z.string(),
+			description: z.string()
+		})} 
+	)
 
-			return updatedPost;
-		},
-		{
-			params: t.Object({
-				postId: t.String(),
-			}),
-		},
-	);
+	.delete('/:id', async ({params}) => {
+		await db.delete(posts).where(eq(posts.id, params.id))
+	})

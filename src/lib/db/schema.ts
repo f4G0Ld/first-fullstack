@@ -24,6 +24,10 @@ export const posts = pg.pgTable('posts', {
     .integer()
     .default(0),
 
+    comments: pg
+    .integer()
+    .default(0),
+
     createdAt: pg
     .timestamp()
     .notNull()
