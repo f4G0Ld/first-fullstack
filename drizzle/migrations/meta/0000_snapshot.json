@@ -1,5 +1,5 @@
 {
-  "id": "0e54740b-839d-4647-a34f-69da8f998730",
+  "id": "4fecd5dd-2320-49a5-bfa3-7f3943b40901",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -99,6 +99,13 @@
         },
         "likes": {
           "name": "likes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "comments": {
+          "name": "comments",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,

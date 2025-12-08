@@ -13,6 +13,7 @@ CREATE TABLE "posts" (
 	"name" varchar(255) NOT NULL,
 	"description" text NOT NULL,
 	"likes" integer DEFAULT 0,
+	"comments" integer DEFAULT 0,
 	"createdAt" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
