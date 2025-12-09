@@ -1,8 +1,8 @@
 import Elysia from "elysia";
 import { db } from "../lib/db/database";
-import { comments } from "../lib/db/schema";
+import { comments, posts } from "../lib/db/schema";
 import z from "zod/v4";
-import { eq } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 
 export const commentsRoutes = new Elysia({
 	name: "commentRoutes",
@@ -10,13 +10,30 @@ export const commentsRoutes = new Elysia({
 })
 
 	.get("/", async () => {
-		return await db.select().from(comments);
+		return await db.select().from(comments).orderBy(desc(comments.createdAt));
+	})
+
+	.get("/post/:id", async ({ params }) => {
+		return await db
+			.select()
+			.from(comments)
+			.where(eq(comments.postId, params.id))
+			.orderBy(desc(comments.createdAt));
 	})
 
 	.post(
 		"/",
 		async ({ body }) => {
-			return await db.insert(comments).values(body).returning();
+			const comment = await db.insert(comments).values(body).returning();
+
+			await db
+				.update(posts)
+				.set({
+					comments: sql`${posts.comments} + 1`,
+				})
+				.where(eq(posts.id, body.postId));
+
+			return comment;
 		},
 		{
 			body: z.object({
@@ -47,5 +64,14 @@ export const commentsRoutes = new Elysia({
 	)
 
 	.delete("/:id", async ({ params }) => {
-		await db.delete(comments).where(eq(comments.id, params.id));
+		const comment = await db.delete(comments).where(eq(comments.id, params.id));
+
+		await db
+			.update(posts)
+			.set({
+				comments: sql`${posts.comments} - 1`,
+			})
+			.where(eq(posts.id, params.id));
+
+		return comment;
 	});
