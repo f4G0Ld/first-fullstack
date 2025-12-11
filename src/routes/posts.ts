@@ -1,6 +1,6 @@
 import { db } from "@/src/lib/db/database";
 import { posts } from "@/src/lib/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 import z from "zod/v4";
 
@@ -44,6 +44,26 @@ export const postsRoutes = new Elysia({
 			}),
 		},
 	)
+
+	.put("/:id/like", async ({ params }) => {
+		return await db
+			.update(posts)
+			.set({
+				likes: sql`${posts.likes} + 1`,
+			})
+			.where(eq(posts.id, params.id))
+			.returning();
+	})
+
+	.put("/:id/unlike", async ({ params }) => {
+		return await db
+			.update(posts)
+			.set({
+				likes: sql`GREATEST(${posts.likes} - 1, 0)`,
+			})
+			.where(eq(posts.id, params.id))
+			.returning();
+	})
 
 	.delete("/:id", async ({ params }) => {
 		await db.delete(posts).where(eq(posts.id, params.id));

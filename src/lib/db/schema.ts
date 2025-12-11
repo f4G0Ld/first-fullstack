@@ -41,8 +41,6 @@ export const comments = pg.pgTable("comments", {
 		.notNull()
 		.references(() => posts.id, { onDelete: "cascade", onUpdate: "cascade" }),
 
-	likes: pg.integer().default(0),
-
 	createdAt: pg.timestamp().notNull().defaultNow(),
 });
 

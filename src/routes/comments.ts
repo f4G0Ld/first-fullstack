@@ -40,7 +40,6 @@ export const commentsRoutes = new Elysia({
 				name: z.string(),
 				text: z.string(),
 				postId: z.string(),
-				likes: z.number(),
 			}),
 		},
 	)
@@ -58,22 +57,25 @@ export const commentsRoutes = new Elysia({
 			body: z.object({
 				name: z.string(),
 				text: z.string(),
-				likes: z.number(),
 			}),
 		},
 	)
 
 	.delete("/:id", async ({ params }) => {
+		const [comment] = await db
+			.select()
+			.from(comments)
+			.where(eq(comments.id, params.id))
+			.limit(1);
 
-		const [comment]
-		const comment = await db.delete(comments).where(eq(comments.id, params.id));
+		await db.delete(comments).where(eq(comments.id, params.id));
 
 		await db
 			.update(posts)
 			.set({
-				comments: sql`${posts.comments} - 1`,
+				comments: sql`GREATEST(${posts.comments} - 1, 0)`,
 			})
-			.where(eq(posts.id, params.id));
+			.where(eq(posts.id, comment.postId));
 
 		return comment;
 	});
