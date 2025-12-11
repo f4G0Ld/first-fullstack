@@ -2,7 +2,7 @@ import Elysia from "elysia";
 import { postsRoutes } from "./routes/posts";
 import { commentsRoutes } from "./routes/comments";
 
-const app = new Elysia({
+export const app = new Elysia({
 	name: "app",
 	prefix: "/api",
 })
@@ -10,4 +10,4 @@ const app = new Elysia({
 	.use(postsRoutes)
 	.use(commentsRoutes)
 
-	.listen(3000);
+	// .listen(3000);

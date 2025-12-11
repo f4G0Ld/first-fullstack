@@ -1,6 +1,6 @@
 import { db } from "@/src/lib/db/database";
 import { posts } from "@/src/lib/db/schema";
-import { eq, sql } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 import z from "zod/v4";
 
@@ -11,6 +11,13 @@ export const postsRoutes = new Elysia({
 
 	.get("/", async () => {
 		return await db.select().from(posts);
+	})
+
+	.get("/:id", async ({ params }) => {
+		return await db.query.posts.findFirst({
+			where: eq(posts.id, params.id),
+			orderBy: desc(posts.createdAt),
+		});
 	})
 
 	.post(
