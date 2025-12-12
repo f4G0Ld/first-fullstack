@@ -10,7 +10,7 @@ export const commentsRoutes = new Elysia({
 })
 
 	.get("/", async ({ query }) => {
-		if (query?.id) {
+		if (query?.postId) {
 			return await db
 				.select()
 				.from(comments)
