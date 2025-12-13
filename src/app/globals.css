@@ -10,8 +10,6 @@
 	--font-mono: var(--font-inter-mono);
 	--font-main: var(--font-main);
 	--radius: 0.625rem;
-	--background: oklch(1 0 0);
-	--foreground: oklch(0.145 0 0);
 	--card: oklch(1 0 0);
 	--card-foreground: oklch(0.145 0 0);
 	--popover: oklch(1 0 0);
@@ -41,6 +39,8 @@
 	--sidebar-accent-foreground: oklch(0.205 0 0);
 	--sidebar-border: oklch(0.922 0 0);
 	--sidebar-ring: oklch(0.708 0 0);
+	--background: oklch(1 0 0);
+	--foreground: oklch(0.145 0 0);
 }
 
 body {
@@ -128,7 +128,16 @@ body {
   * {
     @apply border-border outline-ring/50;
 	}
+  *::-webkit-scrollbar {
+    width: 0;
+    height: 0
+  }
+
+
+*{scrollbar-width: none;-ms-overflow-style: none;}
   body {
     @apply bg-background text-foreground;
 	}
 }
+
+

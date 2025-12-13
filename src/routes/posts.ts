@@ -10,7 +10,9 @@ export const postsRoutes = new Elysia({
 })
 
 	.get("/", async () => {
-		return await db.select().from(posts);
+		return await db.query.posts.findMany({
+			orderBy: desc(posts.createdAt),
+		});
 	})
 
 	.get("/:id", async ({ params }) => {

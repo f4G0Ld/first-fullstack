@@ -111,6 +111,7 @@ export function PostCard({ post }: { post: Post }) {
 							{post.title}
 						</span>
 						<button
+							type="button"
 							className="cursor-pointer"
 							title="Delete post"
 							onClick={handleDelete}
@@ -126,6 +127,7 @@ export function PostCard({ post }: { post: Post }) {
 				<hr className="text-[#4A5565]" />
 				<div className="flex gap-2 items-center">
 					<button
+						type="button"
 						className="flex gap-1 hover:text-[#FF0000] transition-colors items-center cursor-pointer"
 						title="Like"
 						onClick={handleLike}
@@ -135,6 +137,7 @@ export function PostCard({ post }: { post: Post }) {
 						<span>{post.likes || 0}</span>
 					</button>
 					<button
+						type="button"
 						className="flex gap-1 hover:text-[#155DFC] transition-colors items-center cursor-pointer"
 						title="Comment"
 					>
