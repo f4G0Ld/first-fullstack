@@ -1,7 +1,7 @@
 import { db } from "@/src/lib/db/database";
 import { posts } from "@/src/lib/db/schema";
 import { desc, eq, sql } from "drizzle-orm";
-import { Elysia, t } from "elysia";
+import { Elysia } from "elysia";
 import z from "zod/v4";
 
 export const postsRoutes = new Elysia({
@@ -28,10 +28,10 @@ export const postsRoutes = new Elysia({
 			return await db.insert(posts).values(body).returning();
 		},
 		{
-			body: t.Object({
-				title: t.String(),
-				name: t.String(),
-				description: t.String(),
+			body: z.object({
+				title: z.string(),
+				name: z.string(),
+				description: z.string(),
 			}),
 		},
 	)
